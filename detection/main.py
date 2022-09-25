@@ -3,12 +3,6 @@ import numpy as np
 import cv2
 import faceDetection
 
-model = torch.hub.load(
-    "ultralytics/yolov5",
-    "custom",
-    path="./yolov5/runs/train/exp/weights/last.pt",
-)
-
 
 def main():
     cap = cv2.VideoCapture(0)

@@ -7,7 +7,7 @@ CONFIDENCE = 0.60
 model = torch.hub.load(
     "ultralytics/yolov5",
     "custom",
-    path="./yolov5/runs/train/exp/weights/last.pt",
+    path="./model/train/exp/weights/last.pt",
 )
 
 
