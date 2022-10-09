@@ -1,28 +1,55 @@
-import cv2
-from detection.simple_facerec import SimpleFacerec
+import sys
+from src.DB import *
+from src.flight.ui_main_window import *
+from src.flight.repository import *
 
-# Encode faces from a folder
-sfr = SimpleFacerec()
-sfr.load_encoding_images("./public/images")
 
-# Load Camera
-cap = cv2.VideoCapture(0)
-while True:
-    print("leyendo")
-    ret, frame = cap.read()
-    print(frame)
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.uiMain = Ui_mainWindow()
+        self.uiMain.setupUi(self)
 
-    # Detect Faces
-    face_locations, face_names = sfr.detect_known_faces(frame)
-    for face_loc, name in zip(face_locations, face_names):
-        y1, x2, y2, x1 = face_loc[0], face_loc[1], face_loc[2], face_loc[3]
-        cv2.putText(
-            frame, name, (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 200), 2
-        )
-        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 200), 4)
-    cv2.imshow("Frame", frame)
-    key = cv2.waitKey(1)
-    if key == 27:
-        break
-cap.release()
-cv2.destroyAllWindows()
+        # crea la base de datos y los muestra en la tabla
+        db = DB()
+        db.create()
+        db.fillFlightTable()
+        self.updateFlightTable()
+
+    def updateFlightTable(self):
+        flightStg = FlightStg()
+        data, error = flightStg.findAll()
+        print(data)
+        if error is not None:
+            # QMessageBox.critical(self, Lang.appName, str(error))
+
+            return
+
+        self.uiMain.flightTable.setRowCount(len(data))
+        self.uiMain.flightTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+
+        tableRow = 0
+        for row in data:
+            # agrega los valores de la base de datos en la tabla
+            self.uiMain.flightTable.setItem(
+                tableRow, 0, QtWidgets.QTableWidgetItem(row[1])
+            )
+            self.uiMain.flightTable.setItem(
+                tableRow, 1, QtWidgets.QTableWidgetItem(row[2])
+            )
+            self.uiMain.flightTable.setItem(
+                tableRow, 2, QtWidgets.QTableWidgetItem(row[3])
+            )
+            self.uiMain.flightTable.setItem(
+                tableRow, 3, QtWidgets.QTableWidgetItem(str(row[4]))
+            )
+
+            tableRow += 1
+
+
+if __name__ == "__main__":
+    print("face recognition")
+    app = QtWidgets.QApplication(sys.argv)
+    mainWindow = MainWindow()
+    mainWindow.show()
+    sys.exit(app.exec_())
