@@ -17,8 +17,7 @@ class Ui_mainWindow(object):
         mainWindow.resize(1280, 720)
         mainWindow.setStyleSheet("font-size: 20px;")
         self.centralwidget = QtWidgets.QWidget(mainWindow)
-        self.centralwidget.setStyleSheet("margin: 0;\n"
-"padding: 0;")
+        self.centralwidget.setStyleSheet("margin: 0;\n" "padding: 0;")
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -47,21 +46,24 @@ class Ui_mainWindow(object):
         self.frame_6.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_6.setObjectName("frame_6")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_6)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.flightTable = QtWidgets.QTableWidget(self.frame_6)
-        self.flightTable.setGeometry(QtCore.QRect(30, 30, 851, 491))
-        self.flightTable.setStyleSheet("QTableWidget{\n"
-"    background-color: rgb(255, 255, 255);\n"
-"    border-radius: 5px;\n"
-"    padding-left: 5px;\n"
-"    padding-right: 5px;\n"
-"    border: 1px solid rgb(223, 223, 223);\n"
-"}\n"
-"\n"
-"QHeaderView::section{\n"
-"    color: rgb(255, 255, 255);\n"
-"    background-color: rgb(0, 63, 82);\n"
-"    font-size: 16px;\n"
-"}")
+        self.flightTable.setStyleSheet(
+            "QTableWidget{\n"
+            "    background-color: rgb(255, 255, 255);\n"
+            "    border-radius: 5px;\n"
+            "    padding-left: 5px;\n"
+            "    padding-right: 5px;\n"
+            "    border: 1px solid rgb(223, 223, 223);\n"
+            "}\n"
+            "\n"
+            "QHeaderView::section{\n"
+            "    color: rgb(255, 255, 255);\n"
+            "    background-color: rgb(0, 63, 82);\n"
+            "    font-size: 16px;\n"
+            "}"
+        )
         self.flightTable.setObjectName("flightTable")
         self.flightTable.setColumnCount(5)
         self.flightTable.setRowCount(0)
@@ -76,20 +78,23 @@ class Ui_mainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.flightTable.setHorizontalHeaderItem(4, item)
         self.flightTable.horizontalHeader().setDefaultSectionSize(167)
+        # same size to columns
+        self.flightTable.horizontalHeader().setSectionResizeMode(1)
+        self.horizontalLayout_3.addWidget(self.flightTable)
         self.verticalLayout_3.addWidget(self.frame_6)
         self.horizontalLayout.addWidget(self.frame)
         self.frame_2 = QtWidgets.QFrame(self.centralwidget)
         self.frame_2.setAutoFillBackground(False)
-        self.frame_2.setStyleSheet("background-color: rgb(48, 124, 124);\n"
-"max-width: 360px;")
+        self.frame_2.setStyleSheet(
+            "background-color: rgb(48, 124, 124);\n" "max-width: 360px;"
+        )
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_2)
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_3 = QtWidgets.QFrame(self.frame_2)
-        self.frame_3.setStyleSheet("max-height: 200px;\n"
-"color:#fff;")
+        self.frame_3.setStyleSheet("max-height: 200px;\n" "color:#fff;")
         self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
@@ -97,8 +102,7 @@ class Ui_mainWindow(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.label = QtWidgets.QLabel(self.frame_3)
         self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.label.setStyleSheet("\n"
-"font-size: 36px;")
+        self.label.setStyleSheet("\n" "font-size: 36px;")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.verticalLayout_2.addWidget(self.label)
@@ -106,15 +110,18 @@ class Ui_mainWindow(object):
         self.label_2.setObjectName("label_2")
         self.verticalLayout_2.addWidget(self.label_2)
         self.pushButton = QtWidgets.QPushButton(self.frame_3)
-        self.pushButton.setStyleSheet("background-color: rgb(243, 255, 171);\n"
-"color: rgc(0,0,0);")
+        self.pushButton.setStyleSheet(
+            "background-color: rgb(243, 255, 171);\n" "color: rgc(0,0,0);"
+        )
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout_2.addWidget(self.pushButton)
         self.verticalLayout.addWidget(self.frame_3)
         self.frame_5 = QtWidgets.QFrame(self.frame_2)
-        self.frame_5.setStyleSheet("background-color: rgb(35, 107, 102);\n"
-"border-radius: 5px;\n"
-"color: #fff;")
+        self.frame_5.setStyleSheet(
+            "background-color: rgb(35, 107, 102);\n"
+            "border-radius: 5px;\n"
+            "color: #fff;"
+        )
         self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_5.setObjectName("frame_5")
@@ -179,8 +186,11 @@ class Ui_mainWindow(object):
         item = self.flightTable.horizontalHeaderItem(4)
         item.setText(_translate("mainWindow", "Acción"))
         self.label.setText(_translate("mainWindow", "Abordar"))
-        self.label_2.setText(_translate("mainWindow", "Para abordar se necesita comprobar \n"
-" su identidad."))
+        self.label_2.setText(
+            _translate(
+                "mainWindow", "Para abordar se necesita comprobar \n" " su identidad."
+            )
+        )
         self.pushButton.setText(_translate("mainWindow", "Identificarse en la cámara"))
         self.label_4.setText(_translate("mainWindow", "Datos del boleto"))
         self.label_5.setText(_translate("mainWindow", "Destino"))
@@ -197,6 +207,7 @@ class Ui_mainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = QtWidgets.QMainWindow()
     ui = Ui_mainWindow()

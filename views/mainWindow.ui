@@ -82,17 +82,11 @@ padding: 0;</string>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <widget class="QTableWidget" name="flightTable">
-          <property name="geometry">
-           <rect>
-            <x>30</x>
-            <y>30</y>
-            <width>851</width>
-            <height>491</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QTableWidget{
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QTableWidget" name="flightTable">
+            <property name="styleSheet">
+             <string notr="true">QTableWidget{
 	background-color: rgb(255, 255, 255);
 	border-radius: 5px;
 	padding-left: 5px;
@@ -105,36 +99,38 @@ QHeaderView::section{
 	background-color: rgb(0, 63, 82);
 	font-size: 16px;
 }</string>
-          </property>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>167</number>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Destino</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Fecha</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Hora</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Precio</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Acción</string>
-           </property>
-          </column>
-         </widget>
+            </property>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>167</number>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Destino</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Fecha</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Hora</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Precio</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Acción</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>

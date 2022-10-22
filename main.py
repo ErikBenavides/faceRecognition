@@ -2,6 +2,9 @@ import sys
 from src.DB import *
 from src.flight.ui_main_window import *
 from src.flight.repository import *
+from src.flight.Buttons import *
+
+from src.ticket.ui_buy_ticket_window import *
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -44,7 +47,26 @@ class MainWindow(QtWidgets.QMainWindow):
                 tableRow, 3, QtWidgets.QTableWidgetItem(str(row[4]))
             )
 
+            # agrega los botones a la tabla
+            buttons = Buttons()
+            buyButton = buttons.buyButton()
+            self.uiMain.flightTable.setCellWidget(tableRow, 4, buyButton)
+
+            buyButton.clicked.connect(self.opeBuyTicketWindow)
+
             tableRow += 1
+
+    def opeBuyTicketWindow(self):
+        self.window = QtWidgets.QMainWindow()
+        self.uiBuyTicket = Ui_buyTicketWindow()
+        self.uiBuyTicket.setupUi(self.window)
+        self.window.show()
+
+        self.uiBuyTicket.finishBuyBtn.clicked.connect(self.finishBooked)
+
+    def finishBooked(self):
+        name = self.uiBuyTicket.nameTxt.text()
+        print(name)
 
 
 if __name__ == "__main__":
