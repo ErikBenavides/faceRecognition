@@ -1,10 +1,15 @@
 import sys
+import logging
+
+from PyQt5.QtWidgets import QMessageBox
 from src.DB import *
+from src.Lang import Lang
 from src.flight.ui_main_window import *
 from src.flight.repository import *
 from src.flight.Buttons import *
 
 from src.ticket.ui_buy_ticket_window import *
+from src.ticket.repository import *
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -22,10 +27,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def updateFlightTable(self):
         flightStg = FlightStg()
         data, error = flightStg.findAll()
-        print(data)
         if error is not None:
-            # QMessageBox.critical(self, Lang.appName, str(error))
-
+            QMessageBox.critical(self, Lang.appName, str(error))
             return
 
         self.uiMain.flightTable.setRowCount(len(data))
@@ -57,20 +60,40 @@ class MainWindow(QtWidgets.QMainWindow):
             tableRow += 1
 
     def opeBuyTicketWindow(self):
-        self.window = QtWidgets.QMainWindow()
-        self.uiBuyTicket = Ui_buyTicketWindow()
-        self.uiBuyTicket.setupUi(self.window)
-        self.window.show()
+        button = QtWidgets.QApplication.focusWidget()
+        index = self.uiMain.flightTable.indexAt(button.pos())
+        if index.isValid():
+            flightStg = FlightStg()
+            flights, error = flightStg.findAll()
 
-        self.uiBuyTicket.finishBuyBtn.clicked.connect(self.finishBooked)
+            if error:
+                logging.critical(str(error))
+                return
 
-    def finishBooked(self):
+            self.window = QtWidgets.QMainWindow()
+            self.uiBuyTicket = Ui_buyTicketWindow()
+            self.uiBuyTicket.setupUi(self.window)
+            self.window.show()
+
+            self.uiBuyTicket.finishBuyBtn.clicked.connect(
+                lambda: self.finishBooked(flights[index.row()])
+            )
+
+    def finishBooked(self, flight):
         name = self.uiBuyTicket.nameTxt.text()
-        print(name)
+        ticketStg = TicketStg()
+        error = ticketStg.insert(name, flight)
+
+        if error:
+            logging.critical(str(error))
+            QMessageBox.critical(self, Lang.appName, Lang.failSave)
+            return
+        QMessageBox.information(self, Lang.appName, Lang.successfulSave)
+        self.window.close()
 
 
 if __name__ == "__main__":
-    print("face recognition")
+    logging.info(Lang.runningApp + Lang.appName)
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
