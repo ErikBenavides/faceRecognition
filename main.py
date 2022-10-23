@@ -11,6 +11,8 @@ from src.flight.Buttons import *
 from src.ticket.ui_buy_ticket_window import *
 from src.ticket.repository import *
 
+logging.basicConfig(level=logging.INFO)
+
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):

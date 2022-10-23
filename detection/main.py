@@ -2,6 +2,8 @@ import torch
 import numpy as np
 import cv2
 
+import faceDetection
+
 model = torch.hub.load(
     "ultralytics/yolov5",
     "custom",
@@ -14,7 +16,11 @@ def main():
     while cap.isOpened():
         ret, frame = cap.read()
         results = model(frame)
-        cv2.imshow("YOLO", np.squeeze(results.render()))
+        faceDetection.getFaces(results, frame, "erik")
+        framwWithRect = cv2.rectangle(
+            np.squeeze(results.render()), (40, 40), (200, 200), (255, 0, 0), 2
+        )
+        cv2.imshow("YOLO", framwWithRect)
 
         if cv2.waitKey(10) & 0xFF == ord("q"):
             break
