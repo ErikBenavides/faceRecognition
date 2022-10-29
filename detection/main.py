@@ -16,11 +16,50 @@ def main():
     while cap.isOpened():
         ret, frame = cap.read()
         results = model(frame)
-        faceDetection.getFaces(results, frame, "erik")
-        framwWithRect = cv2.rectangle(
-            np.squeeze(results.render()), (40, 40), (200, 200), (255, 0, 0), 2
+        faceDetection.getFaces(results, frame, "erik", cap)
+
+        frameWithFaces = results.render()
+
+        center = (
+            int(frameWithFaces[0].shape[1] / 2),
+            int(frameWithFaces[0].shape[0] / 2),
         )
-        cv2.imshow("YOLO", framwWithRect)
+
+        p1 = (
+            center[0] - 100,
+            center[1] - 100,
+        )
+
+        p2 = (
+            center[0] + 100,
+            center[1] + 100,
+        )
+
+        frameWithRect = cv2.rectangle(
+            np.squeeze(frameWithFaces), p1, p2, (0, 255, 0), 2
+        )
+
+        frameWithText = cv2.putText(
+            frameWithRect,
+            "Trata de cercarte al marco y pulsa S para tomar foto.",
+            (30, 20),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (0, 0, 0),
+            2,
+        )
+
+        frameWithText = cv2.putText(
+            frameWithRect,
+            "La ventana se cerrara automaticamente",
+            (30, 50),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (0, 0, 0),
+            2,
+        )
+
+        cv2.imshow("YOLO", frameWithText)
 
         if cv2.waitKey(10) & 0xFF == ord("q"):
             break

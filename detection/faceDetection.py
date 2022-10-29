@@ -5,7 +5,7 @@ CONFIDENCE = 0.60
 MARGIN = 100
 
 
-def getFaces(results, frame, name):
+def getFaces(results, frame, name, cap):
     faces = []
     for i, dets in enumerate(results.xyxy[0]):
         if dets[4] > CONFIDENCE and dets[5] == 0:
@@ -25,3 +25,5 @@ def getFaces(results, frame, name):
                     xMin - MARGIN : xMin + width + MARGIN,
                 ]
                 cv2.imwrite("./public/images/" + name + ".jpg", cropped_image)
+                cap.release()
+                cv2.destroyAllWindows()
