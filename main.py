@@ -11,6 +11,8 @@ from src.flight.Buttons import *
 from src.ticket.ui_buy_ticket_window import *
 from src.ticket.repository import *
 
+from detection.main import *
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -77,9 +79,19 @@ class MainWindow(QtWidgets.QMainWindow):
             self.uiBuyTicket.setupUi(self.window)
             self.window.show()
 
+            self.uiBuyTicket.bookFlightBtn.clicked.connect(self.openFaceDetectionWindow)
             self.uiBuyTicket.finishBuyBtn.clicked.connect(
                 lambda: self.finishBooked(flights[index.row()])
             )
+
+    def openFaceDetectionWindow(
+        self,
+    ):
+        name = self.uiBuyTicket.nameTxt.text()
+        if name == "":
+            QMessageBox.critical(self, Lang.appName, Lang.nameRequired)
+            return
+        runFaceDetection(name)
 
     def finishBooked(self, flight):
         name = self.uiBuyTicket.nameTxt.text()

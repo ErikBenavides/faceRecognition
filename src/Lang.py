@@ -6,5 +6,6 @@ class Lang:
     successfulRemove = "Se ha eliminado correctamente"
 
     failSave = "Ha ocurrido un error al guardar"
+    nameRequired = "El nombre es requerido"
 
     runningApp = "running"

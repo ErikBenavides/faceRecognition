@@ -2,7 +2,8 @@ import torch
 import numpy as np
 import cv2
 
-import faceDetection
+CONFIDENCE = 0.60
+MARGIN = 100
 
 model = torch.hub.load(
     "ultralytics/yolov5",
@@ -11,12 +12,12 @@ model = torch.hub.load(
 )
 
 
-def main():
+def runFaceDetection(name):
     cap = cv2.VideoCapture(0)
     while cap.isOpened():
         ret, frame = cap.read()
         results = model(frame)
-        faceDetection.getFaces(results, frame, "erik", cap)
+        getFaces(results, frame, name, cap)
 
         frameWithFaces = results.render()
 
@@ -67,7 +68,30 @@ def main():
     cv2.destroyAllWindows()
 
 
+def getFaces(results, frame, name, cap):
+    faces = []
+    for i, dets in enumerate(results.xyxy[0]):
+        if dets[4] > CONFIDENCE and dets[5] == 0:
+            xMin = int(dets[0].numpy())
+            yMin = int(dets[1].numpy())
+            xMax = int(dets[2].numpy())
+            yMax = int(dets[3].numpy())
+
+            height = yMax - yMin
+            width = xMax - xMin
+
+            if cv2.waitKey(10) & 0xFF == ord("s"):
+                print("Guardando imagen")
+                cropped_image = frame[
+                    yMin - int(MARGIN * 1.5) : yMin + height + MARGIN,
+                    xMin - MARGIN : xMin + width + MARGIN,
+                ]
+                cv2.imwrite("./public/images/" + name + ".jpg", cropped_image)
+                cap.release()
+                cv2.destroyAllWindows()
+
+
 if __name__ == "__main__":
-    main()
+    runFaceDetection()
 
 # python detect.py --weights runs/train/exp/weights/best.pt --img 416 --conf 0.1 --source 0
