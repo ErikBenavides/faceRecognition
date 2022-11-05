@@ -21,6 +21,16 @@ class TicketStg:
         finally:
             self.connection.close()
 
+    def findByName(self, passengerName):
+        query = """select * from ticket where passengerName = '{}'""".format(
+            passengerName
+        )
+        try:
+            data = self.cursor.execute(query).fetchall()
+            return data[0]
+        except Exception as error:
+            logging.error(error)
+
     def insert(self, passengerName, ticket):
         now = datetime.now()
         createdAt = now.strftime("%Y-%m-%d")

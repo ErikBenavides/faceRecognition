@@ -13,6 +13,7 @@ from src.ticket.repository import *
 
 from detection.main import *
 import faceRecognition
+from pydispatch import dispatcher
 
 logging.basicConfig(level=logging.INFO)
 
@@ -29,6 +30,11 @@ class MainWindow(QtWidgets.QMainWindow):
         db.fillFlightTable()
         self.updateFlightTable()
         self.clearPassengerData()
+        dispatcher.connect(
+            self.listenFaceRecognition,
+            sender=faceRecognition.MyNode,
+            signal=faceRecognition.metaKey,
+        )
         self.uiMain.identifyYourselfBtn.clicked.connect(self.openFaceRecognition)
 
     def updateFlightTable(self):
@@ -122,6 +128,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.uiMain.hourDepartureLbl.setText("")
         self.uiMain.nameLbl.setText("")
         self.uiMain.priceLbl.setText("")
+
+    def listenFaceRecognition(self, event=None):
+        print("evento recibido")
+
+        if event != None:
+            ticket = event["ticket"]
+            flight = event["flight"]
+            self.uiMain.nameLbl.setText(ticket[1])
+            self.uiMain.destinationLbl.setText(flight[1])
+            self.uiMain.dateDepartureLbl.setText(flight[2])
+            self.uiMain.hourDepartureLbl.setText(flight[3])
+            self.uiMain.priceLbl.setText(str(flight[4]))
+        else:
+            self.clearPassengerData()
 
 
 if __name__ == "__main__":

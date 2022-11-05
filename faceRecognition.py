@@ -1,8 +1,17 @@
 import cv2
 from detection.simple_facerec import SimpleFacerec
+from src.ticket.repository import *
+from src.flight.repository import *
+from pydispatch import dispatcher
+
+metaKey = "moo"
+MyNode = object()
 
 
 def detectFace():
+    ticketStg = TicketStg()
+    flightStg = FlightStg()
+
     # Encode faces from a folder
     sfr = SimpleFacerec()
     sfr.load_encoding_images("./public/images")
@@ -16,6 +25,15 @@ def detectFace():
         face_locations, face_names = sfr.detect_known_faces(frame)
         for face_loc, name in zip(face_locations, face_names):
             y1, x2, y2, x1 = face_loc[0], face_loc[1], face_loc[2], face_loc[3]
+            ticket = ticketStg.findByName(name)
+            if ticket != None:
+                flight = flightStg.findById(ticket[3])
+                event = {"ticket": ticket, "flight": flight}
+                dispatcher.send(metaKey, MyNode, event=event)
+            else:
+                event = None
+                dispatcher.send(metaKey, MyNode, event=event)
+
             cv2.putText(
                 frame, name, (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 200), 2
             )
@@ -70,7 +88,7 @@ def detectFace():
 
         cv2.putText(
             frame,
-            "Pulsa q para cerrar la ventana",
+            "Pulsa esc para cerrar la ventana",
             (30, 50),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.6,

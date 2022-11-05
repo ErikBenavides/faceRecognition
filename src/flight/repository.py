@@ -18,3 +18,11 @@ class FlightStg:
             return None, error
         finally:
             self.connection.close()
+
+    def findById(self, id):
+        query = """select * from flight where idFlight = '{}'""".format(id)
+        try:
+            data = self.cursor.execute(query).fetchall()
+            return data[0]
+        except Exception as error:
+            logging.error(error)
