@@ -12,6 +12,7 @@ from src.ticket.ui_buy_ticket_window import *
 from src.ticket.repository import *
 
 from detection.main import *
+import faceRecognition
 
 logging.basicConfig(level=logging.INFO)
 
@@ -27,6 +28,8 @@ class MainWindow(QtWidgets.QMainWindow):
         db.create()
         db.fillFlightTable()
         self.updateFlightTable()
+        self.clearPassengerData()
+        self.uiMain.identifyYourselfBtn.clicked.connect(self.openFaceRecognition)
 
     def updateFlightTable(self):
         flightStg = FlightStg()
@@ -105,6 +108,21 @@ class MainWindow(QtWidgets.QMainWindow):
         QMessageBox.information(self, Lang.appName, Lang.successfulSave)
         self.window.close()
 
+    def openFaceRecognition(
+        self,
+    ):
+        print("abriendo reconocimiento")
+        faceRecognition.detectFace()
+
+    def clearPassengerData(
+        self,
+    ):
+        self.uiMain.destinationLbl.setText("")
+        self.uiMain.dateDepartureLbl.setText("")
+        self.uiMain.hourDepartureLbl.setText("")
+        self.uiMain.nameLbl.setText("")
+        self.uiMain.priceLbl.setText("")
+
 
 if __name__ == "__main__":
     logging.info(Lang.runningApp + Lang.appName)
@@ -112,3 +130,5 @@ if __name__ == "__main__":
     mainWindow = MainWindow()
     mainWindow.show()
     sys.exit(app.exec_())
+
+# self.flightTable.horizontalHeader().setSectionResizeMode(1)

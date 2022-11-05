@@ -191,7 +191,7 @@ font-size: 36px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="identifyYourselfBtn">
             <property name="styleSheet">
              <string notr="true">background-color: rgb(243, 255, 171);
 color: rgc(0,0,0);</string>
@@ -233,7 +233,7 @@ color: #fff;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_6">
+           <widget class="QLabel" name="destinationLbl">
             <property name="text">
              <string>Cancún - México</string>
             </property>
@@ -247,7 +247,7 @@ color: #fff;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_8">
+           <widget class="QLabel" name="dateDepartureLbl">
             <property name="text">
              <string>14-05-2022</string>
             </property>
@@ -261,7 +261,7 @@ color: #fff;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_10">
+           <widget class="QLabel" name="hourDepartureLbl">
             <property name="text">
              <string>13:00</string>
             </property>
@@ -275,7 +275,7 @@ color: #fff;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_12">
+           <widget class="QLabel" name="priceLbl">
             <property name="text">
              <string>2 600</string>
             </property>
@@ -289,7 +289,7 @@ color: #fff;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_14">
+           <widget class="QLabel" name="nameLbl">
             <property name="text">
              <string>Maria Rivera</string>
             </property>
